@@ -68,7 +68,7 @@ class _DashboardRtState extends State<DashboardRt> {
                       children: [
                         InkWell(
                           onTap: (){
-                            AutoRouter.of(context).push
+
                           },
                           child: DashboardCard(
                             title: 'Data Warga',
