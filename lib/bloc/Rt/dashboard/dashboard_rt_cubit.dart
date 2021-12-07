@@ -13,7 +13,7 @@ class DashboardRtCubit extends Cubit<DashboardRtState> {
     try{
       emit(DashboardRtLoading());
       String nama = await locator<PreferencesHelper>().getValue('nama');
-      emit(DashboardRtLoaded(name: nama));
+      emit(DashboardRtLoaded(nama: nama));
     }catch (e){
       emit(DashboardRtFailure(e.toString()));
     }

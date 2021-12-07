@@ -40,6 +40,11 @@ dependencies:
   path_provider: ^2.0.2
   dio: ^4.0.0
   persistent_bottom_nav_bar: ^4.0.2
+  shimmer: ^2.0.0
+  image_picker: ^0.8.3+3
+  flutter_exif_rotation: ^0.4.1
+  permission_handler: ^8.1.4+2
+  open_file: ^3.2.1
 
 dev_dependencies:
   flutter_test:
@@ -47,6 +52,7 @@ dev_dependencies:
   auto_route_generator: ^2.1.0
   build_runner: ^2.1.0
   injectable_generator: ^1.4.1
+  flutter_native_splash: ^1.2.4
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

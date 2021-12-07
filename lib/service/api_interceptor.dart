@@ -21,6 +21,7 @@ class ApiInterceptors {
                 requestInterceptor(options,handler),
         onError: errorInterceptor,
         onResponse: (Response res, handler){
+          print(res.statusCode);
           print(res.data);
           return handler.next(res);
         }

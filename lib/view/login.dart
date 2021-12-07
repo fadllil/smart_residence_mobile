@@ -9,37 +9,30 @@ import 'package:smart_residence/config/router.gr.dart';
 import 'package:smart_residence/constants/assets.dart';
 import 'package:smart_residence/constants/strings.dart';
 import 'package:smart_residence/constants/themes.dart';
-import 'package:smart_residence/view/components/custom_button.dart';
 
+import 'components/custom_button.dart';
 import 'components/custom_form.dart';
 
-class Login extends StatefulWidget {
+class Login extends StatefulWidget{
   @override
   _LoginState createState() => _LoginState();
 }
 
-class _LoginState extends State<Login> {
-
+class _LoginState extends State<Login>{
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) =>
-      locator<AuthenticationCubit>()
-        ..appStarted(),
+      create: (_) => locator<AuthenticationCubit>()..appStarted(),
       child: BlocBuilder<AuthenticationCubit, AuthenticationState>(
-        builder: (context, state) {
-          if (state is AuthenticationUnauthenticated){
-            return LoginForm();
-          } else {
-            return SizedBox();
-          }
+        builder: (context, stete){
+          return LoginForm();
         },
       ),
     );
   }
 }
 
-class LoginForm extends StatefulWidget {
+class LoginForm extends StatefulWidget{
   const LoginForm({Key? key}) : super(key: key);
 
   @override
@@ -48,14 +41,14 @@ class LoginForm extends StatefulWidget {
 
 class _LoginFormState extends State<LoginForm> {
 
-  TextEditingController? email;
+  TextEditingController? username;
   TextEditingController? password;
   late bool _obscure;
 
   @override
   void initState() {
     super.initState();
-    email = TextEditingController();
+    username = TextEditingController();
     password = TextEditingController();
     _obscure = true;
   }
@@ -63,7 +56,7 @@ class _LoginFormState extends State<LoginForm> {
   @override
   void dispose() {
     super.dispose();
-    email?.dispose();
+    username?.dispose();
     password?.dispose();
   }
 
@@ -76,19 +69,19 @@ class _LoginFormState extends State<LoginForm> {
         body: BlocConsumer<LoginCubit,LoginState>(
           listener: (context,state){
             if(state is LoginLoading){
-              EasyLoading.show(status: 'Loading');
+              EasyLoading.show(status: 'Loading',dismissOnTap: false,maskType: EasyLoadingMaskType.black);
             }else if(state is LoginFailure){
               EasyLoading.dismiss();
               EasyLoading.showError(state.message!);
             }else if(state is LoginSuccess){
               EasyLoading.dismiss();
-              AutoRouter.of(context).pushAndPopUntil(HomeRoute(), predicate: (route)=>false);
+              AutoRouter.of(context).pushAndPopUntil(SplashScreenRoute(), predicate: (route)=>false);
             }
           },
           builder:(context,state)=> SingleChildScrollView(
             child: Container(
               height: MediaQuery.of(context).size.height,
-              padding: EdgeInsets.all(10),
+              padding: EdgeInsets.all(30),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -110,20 +103,10 @@ class _LoginFormState extends State<LoginForm> {
                     child: Image.asset(Assets.loginAsset),
                   ),
                   CustomForm(
-                    label: Strings.email,
+                    label: Strings.username,
                     child: TextFormField(
-                      controller: email,
-                      decoration: InputDecoration(
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10.0),
-                              borderSide: BorderSide(
-                                color: bluePrimary,
-                              ),
-                          ),
-                          border: OutlineInputBorder(),
-                          prefixIcon: Icon(Icons.person),
-                          hintText: Strings.email
-                      ),
+                      controller: username,
+                      decoration: InputDecoration(hintText: Strings.username),
                     ),
                   ),
                   SizedBox(
@@ -135,14 +118,7 @@ class _LoginFormState extends State<LoginForm> {
                       controller: password,
                       obscureText: _obscure,
                       decoration: InputDecoration(
-                        focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10.0),
-                            borderSide: BorderSide(
-                              color: bluePrimary,
-                          )
-                        ),
                         hintText: Strings.password,
-                        prefixIcon: Icon(Icons.lock),
                         suffixIcon: _obscure
                             ? InkWell(
                           onTap: () {
@@ -169,7 +145,7 @@ class _LoginFormState extends State<LoginForm> {
                     onPressed: () {
                       FocusScope.of(context).unfocus();
                       context.read<LoginCubit>().login(
-                          email!.text,  password!.text);
+                          username!.text,  password!.text);
                     },
                     color: bluePrimary,
                   )

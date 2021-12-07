@@ -10,10 +10,10 @@ class LoginCubit extends Cubit<LoginState> {
   final LoginService loginService;
   final AuthenticationCubit authenticationCubit;
   LoginCubit(this.loginService, this.authenticationCubit) : super(LoginInitial());
-  Future login(String username, String password)async{
+  Future login(String email, String password)async{
     try{
       emit(LoginLoading());
-      await loginService.login(username, password);
+      await loginService.login(email, password);
       emit(LoginSuccess());
       await authenticationCubit.appStarted();
     }catch(e){

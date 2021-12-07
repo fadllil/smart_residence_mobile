@@ -18,6 +18,7 @@ class SplashScreen extends StatelessWidget {
       create: (_)=>locator<AuthenticationCubit>()..appStarted(),
       child: BlocBuilder<AuthenticationCubit, AuthenticationState>(
         builder: (context, state){
+          print(state);
           if(state is AuthenticationUnauthenticated){
             return WelcomeScreen();
           }else if(state is AuthenticationAuthenticated){

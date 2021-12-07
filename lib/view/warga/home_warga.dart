@@ -1,8 +1,10 @@
 
 import 'package:flutter/material.dart';
 import 'package:smart_residence/constants/themes.dart';
-import 'package:smart_residence/view/userview/dashboard_outlet.dart';
-import 'package:smart_residence/view/userview/distribusi_outlet.dart';
+import 'package:smart_residence/view/warga/dashboard_warga.dart';
+import 'package:smart_residence/view/warga/informasi/informasi.dart';
+import 'package:smart_residence/view/warga/kegiatan/kegiatan_warga.dart';
+import 'package:smart_residence/view/warga/profil_warga.dart';
 
 class HomeWarga extends StatefulWidget {
   final int? index;
@@ -34,19 +36,19 @@ class _HomeWargaState extends State<HomeWarga> with SingleTickerProviderStateMix
         currentIndex: _tabController.index,
         items: [
           BottomNavigationBarItem(icon: Icon(Icons.home),label: 'Dashboard'),
-          BottomNavigationBarItem(icon: Icon(Icons.delivery_dining),label: 'Distribusi'),
-          BottomNavigationBarItem(icon: Icon(Icons.account_balance_wallet),label: 'Transaksi'),
-          BottomNavigationBarItem(icon: Icon(Icons.inventory),label: 'Stok'),
+          BottomNavigationBarItem(icon: Icon(Icons.info_outlined),label: 'Informasi'),
+          BottomNavigationBarItem(icon: Icon(Icons.date_range_outlined),label: 'Kegiatan'),
+          BottomNavigationBarItem(icon: Icon(Icons.person),label: 'Profil'),
         ],
       ),
       body: TabBarView(
         physics: NeverScrollableScrollPhysics(),
         controller: _tabController,
         children: [
-          DashboardOutlet(),
-          DistribusiOutlet(),
-          Center(child: Text('Transaksi'),),
-          Center(child: Text('Stok'),),
+          DashboardWarga(tab: _tabController),
+          InformasiWarga(tab: _tabController),
+          KegiatanWarga(tab: _tabController),
+          ProfilWarga(tab: _tabController),
         ],
       ),
     );

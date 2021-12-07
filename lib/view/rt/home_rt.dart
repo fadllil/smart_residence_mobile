@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:smart_residence/constants/themes.dart';
 import 'package:smart_residence/view/rt/dashboard_rt.dart';
+import 'package:smart_residence/view/rt/profil.dart';
 import 'package:smart_residence/view/userview/distribusi_outlet.dart';
 
 class HomeRt extends StatefulWidget {
@@ -36,17 +37,17 @@ class _HomeRtState extends State<HomeRt> with SingleTickerProviderStateMixin{
           BottomNavigationBarItem(icon: Icon(Icons.home),label: 'Dashboard'),
           BottomNavigationBarItem(icon: Icon(Icons.delivery_dining),label: 'Distribusi'),
           BottomNavigationBarItem(icon: Icon(Icons.account_balance_wallet),label: 'Transaksi'),
-          BottomNavigationBarItem(icon: Icon(Icons.inventory),label: 'Stok'),
+          BottomNavigationBarItem(icon: Icon(Icons.person),label: 'Profil'),
         ],
       ),
       body: TabBarView(
         physics: NeverScrollableScrollPhysics(),
         controller: _tabController,
         children: [
-          DashboardRt(),
+          DashboardRt(tab: _tabController,),
           DistribusiOutlet(),
           Center(child: Text('Transaksi'),),
-          Center(child: Text('Stok'),),
+          ProfilRt(tab: _tabController)
         ],
       ),
     );

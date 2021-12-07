@@ -16,10 +16,20 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
     try{
       emit(AuthenticationLoading());
       String? token = await locator<PreferencesHelper>().getValue('token');
+      // print(token);
       if(token!=null){
         JwtModel jwtModel = jwtModelFromJson(ascii.decode(base64.decode(base64.normalize(token.split(".")[1]))));
+        await locator<PreferencesHelper>().storeValueString('id', jwtModel.sub!.id!.toString());
+        await locator<PreferencesHelper>().storeValueString('nama', jwtModel.sub!.nama!);
         await locator<PreferencesHelper>().storeValueString('role', jwtModel.sub!.role!);
-        emit(AuthenticationAuthenticated(token: token,role: jwtModel.sub?.role));
+        print(jwtModel.sub!.role!);
+        if(jwtModel.sub!.role! == 'RT'){
+          await locator<PreferencesHelper>().storeValueString('id_rt', jwtModel.sub!.adminRt!.idRt.toString());
+        }
+        if(jwtModel.sub!.role! == 'Warga'){
+          await locator<PreferencesHelper>().storeValueString('id_rt', jwtModel.sub!.warga!.idRt.toString());
+        }
+        emit(AuthenticationAuthenticated(token: token,role: jwtModel.sub?.role!));
       }else{
         emit(AuthenticationUnauthenticated());
       }

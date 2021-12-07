@@ -9,9 +9,9 @@ abstract class DashboardRtState extends Equatable {
 class DashboardRtInitial extends DashboardRtState {}
 class DashboardRtLoading extends DashboardRtState {}
 class DashboardRtLoaded extends DashboardRtState {
-  final String? name;
+  final String? nama;
   DashboardRtLoaded(
-      {this.name});
+      {this.nama});
 }
 class DashboardRtFailure extends DashboardRtState {
   final String? message;

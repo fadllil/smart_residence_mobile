@@ -9,6 +9,19 @@ abstract class DataWargaState extends Equatable {
 
 class DataWargaInitial extends DataWargaState {}
 class DataWargaLoading extends DataWargaState {}
-class DataWargaLoaded extends DataWargaState {
+class DataWargaLoaded extends DataWargaState {}
+class DataWargaFailure extends DataWargaState {
+  final String? message;
 
+  DataWargaFailure(this.message);
+}
+
+class DataWargaCreating extends DataWargaState {}
+class DataWargaCreated extends DataWargaState {}
+class DataWargaUpdating extends DataWargaState {}
+class DataWargaUpdated extends DataWargaState {}
+class DataWargaError extends DataWargaState {
+  final String? message;
+
+  DataWargaError(this.message);
 }

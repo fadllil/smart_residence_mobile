@@ -17,3 +17,12 @@ String valueRupiah(int value)=>NumberFormat.currency(
     decimalDigits: 0,
     symbol: "Rp ")
     .format(value);
+
+String dbDateFormat(DateTime value){
+  return DateFormat('y-MM-dd').format(value.toLocal());
+}
+
+String convertDateTime(DateTime date) {
+  final DateFormat formatter = DateFormat('dd-MM-yyyy');
+  return formatter.format(date);
+}

@@ -5,9 +5,10 @@ import 'package:smart_residence/service/api_interceptor.dart';
 
 @lazySingleton
 class HttpService{
-  String base = 'http://192.168.1.28:8000/api';
+  // String base = 'http://192.168.1.15:8000/api';
+  String base = 'http://192.168.48.4:8000/api';
   // String base = 'http://192.168.240.188:8000/api';
-  // String base = 'http://192.168.101.188:8000/api';
+  // String base = 'http://192.168.57.188:8000/api';
 
   Dio? dio = locator<ApiInterceptors>().dio;
 
