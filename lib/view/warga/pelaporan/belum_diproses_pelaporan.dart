@@ -46,7 +46,7 @@ class _BelumDiprosesPelaporanState extends State<BelumDiprosesPelaporan>{
             }else if (state is PelaporanWargaUpdated){
               EasyLoading.dismiss();
               EasyLoading.showSuccess('Berhasil merubah data');
-              AutoRouter.of(context).popAndPush(KegiatanRoute());
+              AutoRouter.of(context).popAndPush(PelaporanWargaRoute());
             }else if (state is PelaporanWargaError){
               EasyLoading.dismiss();
               EasyLoading.showError(state.message);

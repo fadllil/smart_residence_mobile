@@ -7,6 +7,16 @@ import 'package:smart_residence/service/http_service.dart';
 
 @lazySingleton
 class PelaporanService extends HttpService {
+  Future getPelaporan(String id, String status) async{
+    Response response = await get('/rt/pelaporan/$id?status=$status');
+    ListPelaporanModel listPelaporanModel = listPelaporanModelFromJson(jsonEncode(response.data));
+    return listPelaporanModel;
+  }
+
+  Future proses(String id, String status) async{
+    await get('/rt/pelaporan/proses/$id?status=$status');
+  }
+
   Future getPelaporanBelumDiproses(String id) async{
     Response response = await get('/warga/pelaporan/belum_diproses/$id');
     ListPelaporanModel listPelaporanModel = listPelaporanModelFromJson(jsonEncode(response.data));

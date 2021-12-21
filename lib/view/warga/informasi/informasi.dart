@@ -24,7 +24,7 @@ class _InformasiWargaState extends State<InformasiWarga>{
       create: (_)=>locator<InformasiWargaCubit>()..init(),
       child: Scaffold(
         appBar: AppBar(
-          title: Text('Profil'),
+          title: Text('Informasi'),
           elevation: 0,
         ),
         body: BlocBuilder<InformasiWargaCubit, InformasiWargaState>(

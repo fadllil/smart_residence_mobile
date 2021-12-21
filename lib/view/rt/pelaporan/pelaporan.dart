@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:smart_residence/view/rt/pelaporan/belum_diproses.dart';
+import 'package:smart_residence/view/rt/pelaporan/diproses.dart';
+import 'package:smart_residence/view/rt/pelaporan/selesai.dart';
 
 class Pelaporan extends StatefulWidget{
   const Pelaporan({Key? key}) :super (key: key);
@@ -39,9 +42,9 @@ class _PelaporanState extends State<Pelaporan> with SingleTickerProviderStateMix
       body: TabBarView(
         controller: _tabController,
         children: [
-          Center(child: Text('Belum Diproses'),),
-          Center(child: Text('Diproses'),),
-          Center(child: Text('Selesai'),),
+          BelumDiproses(status: "Belum Diproses",),
+          Diproses(status: "Diproses",),
+          Selesai(status: "Selesai",),
         ],
       ),
     );

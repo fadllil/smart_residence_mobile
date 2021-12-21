@@ -122,29 +122,6 @@ class _DashboardWargaBodyState extends State<DashboardWargaBody>{
                   SizedBox(
                     height: 10,
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      InkWell(
-                        onTap: (){
-                          // AutoRouter.of(context).push(SuratRoute());
-                        },
-                        child: DashboardCard(
-                          title: 'Surat',
-                          icon: Icons.verified_user,
-                        ),
-                      ),
-                      InkWell(
-                        onTap: (){
-                          // AutoRouter.of(context).push(KeuanganRoute());
-                        },
-                        child: DashboardCard(
-                          title: 'Keuangan',
-                          icon: Icons.verified_user,
-                        ),
-                      ),
-                    ],
-                  ),
                 ],
               ),
               SizedBox(

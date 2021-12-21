@@ -38,7 +38,7 @@ class Results {
   int? id;
   int? idKegiatan;
   String? status;
-  dynamic maksimalAnggota;
+  int? maksimalAnggota;
   DateTime? createdAt;
   DateTime? updatedAt;
   List<DetailAnggota>? detailAnggota;
@@ -47,7 +47,7 @@ class Results {
     id: json["id"] == null ? null : json["id"],
     idKegiatan: json["id_kegiatan"] == null ? null : json["id_kegiatan"],
     status: json["status"] == null ? null : json["status"],
-    maksimalAnggota: json["maksimal_anggota"],
+    maksimalAnggota: json["maksimal_anggota"] == null ? null : json["maksimal_anggota"],
     createdAt: json["created_at"] == null ? null : DateTime.parse(json["created_at"]),
     updatedAt: json["updated_at"] == null ? null : DateTime.parse(json["updated_at"]),
     detailAnggota: json["detail_anggota"] == null ? null : List<DetailAnggota>.from(json["detail_anggota"].map((x) => DetailAnggota.fromJson(x))),
@@ -69,7 +69,7 @@ class DetailAnggota {
   int? id;
   int? idKegiatanAnggota;
   int? idUser;
-  dynamic namaDidaftarkan;
+  String? namaDidaftarkan;
   String? keterangan;
   DateTime? createdAt;
   DateTime? updatedAt;
@@ -79,7 +79,7 @@ class DetailAnggota {
     id: json["id"] == null ? null : json["id"],
     idKegiatanAnggota: json["id_kegiatan_anggota"] == null ? null : json["id_kegiatan_anggota"],
     idUser: json["id_user"] == null ? null : json["id_user"],
-    namaDidaftarkan: json["nama_didaftarkan"],
+    namaDidaftarkan: json["nama_didaftarkan"] == null ? null : json["nama_didaftarkan"],
     keterangan: json["keterangan"] == null ? null : json["keterangan"],
     createdAt: json["created_at"] == null ? null : DateTime.parse(json["created_at"]),
     updatedAt: json["updated_at"] == null ? null : DateTime.parse(json["updated_at"]),

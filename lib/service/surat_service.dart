@@ -2,20 +2,21 @@ import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
+import 'package:smart_residence/model/list_surat_model.dart';
 import 'package:smart_residence/model/list_surat_warga_model.dart';
 import 'package:smart_residence/service/http_service.dart';
 
 @lazySingleton
 class SuratService extends HttpService {
-  Future getSuratKeteranganWarga(String id) async {
-    Response response = await get('/warga/surat/keterangan/$id');
-    ListSuratWargaModel listSuratWargaModel = listSuratWargaModelFromJson(
+  Future getSurat(String id, String status) async {
+    Response response = await get('/rt/surat/$id?status=$status');
+    ListSuratModel listSuratModel = listSuratModelFromJson(
         jsonEncode(response.data));
-    return listSuratWargaModel;
+    return listSuratModel;
   }
 
-  Future getSuratPengantarWarga(String id) async {
-    Response response = await get('/warga/surat/pengantar/$id');
+  Future getPengajuanSurat(String id, String status) async {
+    Response response = await get('/warga/surat/$id?status=$status');
     ListSuratWargaModel listSuratWargaModel = listSuratWargaModelFromJson(
         jsonEncode(response.data));
     return listSuratWargaModel;

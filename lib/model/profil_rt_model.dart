@@ -18,9 +18,9 @@ class ProfilRtModel {
   int? code;
 
   factory ProfilRtModel.fromJson(Map<String, dynamic> json) => ProfilRtModel(
-    message: json["message"],
-    results: Results.fromJson(json["results"]),
-    code: json["code"],
+    message: json["message"] == null ? null : json["message"],
+    results: json["results"] == null ? null : Results.fromJson(json["results"]),
+    code: json["code"] == null ? null : json["code"],
   );
 }
 
@@ -40,20 +40,20 @@ class Results {
   String? nama;
   String? email;
   String? role;
-  dynamic status;
+  String? status;
   DateTime? createdAt;
   DateTime? updatedAt;
   AdminRt? adminRt;
 
   factory Results.fromJson(Map<String, dynamic> json) => Results(
-    id: json["id"],
-    nama: json["nama"],
-    email: json["email"],
-    role: json["role"],
-    status: json["status"],
-    createdAt: DateTime.parse(json["created_at"]),
-    updatedAt: DateTime.parse(json["updated_at"]),
-    adminRt: AdminRt.fromJson(json["admin_rt"]),
+    id: json["id"] == null ? null : json["id"],
+    nama: json["nama"] == null ? null : json["nama"],
+    email: json["email"] == null ? null : json["email"],
+    role: json["role"] == null ? null : json["role"],
+    status: json["status"] == null ? null : json["status"],
+    createdAt: json["created_at"] == null ? null : DateTime.parse(json["created_at"]),
+    updatedAt: json["updated_at"] == null ? null : DateTime.parse(json["updated_at"]),
+    adminRt: json["admin_rt"] == null ? null : AdminRt.fromJson(json["admin_rt"]),
   );
 }
 
@@ -81,14 +81,14 @@ class AdminRt {
   DateTime? updatedAt;
 
   factory AdminRt.fromJson(Map<String, dynamic> json) => AdminRt(
-    id: json["id"],
-    idRt: json["id_rt"],
-    idUser: json["id_user"],
-    nik: json["nik"],
-    noHp: json["no_hp"],
-    alamat: json["alamat"],
-    jabatan: json["jabatan"],
-    createdAt: DateTime.parse(json["created_at"]),
-    updatedAt: DateTime.parse(json["updated_at"]),
+    id: json["id"] == null ? null : json["id"],
+    idRt: json["id_rt"] == null ? null : json["id_rt"],
+    idUser: json["id_user"] == null ? null : json["id_user"],
+    nik: json["nik"] == null ? null : json["nik"],
+    noHp: json["no_hp"] == null ? null : json["no_hp"],
+    alamat: json["alamat"] == null ? null : json["alamat"],
+    jabatan: json["jabatan"] == null ? null : json["jabatan"],
+    createdAt: json["created_at"] == null ? null : DateTime.parse(json["created_at"]),
+    updatedAt: json["updated_at"] == null ? null : DateTime.parse(json["updated_at"]),
   );
 }

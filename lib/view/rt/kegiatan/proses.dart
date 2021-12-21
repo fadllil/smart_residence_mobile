@@ -14,7 +14,8 @@ import 'package:smart_residence/view/components/loading_com.dart';
 import 'package:smart_residence/view/components/no_data.dart';
 
 class Proses extends StatefulWidget{
-  const Proses({Key? key}) :super (key: key);
+  final String status;
+  const Proses({Key? key, required this.status}) :super (key: key);
 
   @override
   _ProsesState createState() => _ProsesState();
@@ -24,7 +25,7 @@ class _ProsesState extends State<Proses>{
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_)=>locator<KegiatanCubit>()..proses(),
+      create: (_)=>locator<KegiatanCubit>()..init(widget.status),
       child: Scaffold(
         body: BlocConsumer<KegiatanCubit, KegiatanState>(
           listener: (context, state){
@@ -54,12 +55,12 @@ class _ProsesState extends State<Proses>{
           builder: (context, state){
             if(state is KegiatanFailure){
               return ErrorComponent(onPressed: (){
-                context.read<KegiatanCubit>().proses();
+                context.read<KegiatanCubit>().init(widget.status);
               }, message: state.message,);
             }else if(state is KegiatanLoading){
               return LoadingComp();
             }
-            return ProsesBody(model: context.select((KegiatanCubit bloc) => bloc.model));
+            return ProsesBody(model: context.select((KegiatanCubit bloc) => bloc.model), status: widget.status,);
           },
         ),
       ),
@@ -69,7 +70,8 @@ class _ProsesState extends State<Proses>{
 
 class ProsesBody extends StatefulWidget{
   final ListKegiatanModel? model;
-  const ProsesBody({Key? key, required this.model}) : super (key: key);
+  final String status;
+  const ProsesBody({Key? key, required this.model, required this.status}) : super (key: key);
 
   @override
   _ProsesBodyState createState() => _ProsesBodyState();
@@ -89,13 +91,13 @@ class _ProsesBodyState extends State<ProsesBody>{
     return Scaffold(
       floatingActionButton: FloatingActionButton.extended(
         onPressed: (){
-          AutoRouter.of(context).push(TambahKegiatanRoute());
+          AutoRouter.of(context).push(TambahKegiatanRoute()).then((value) => context.read<KegiatanCubit>().init(widget.status));
         },
         label: Text('Tambah'), icon: Icon(Icons.add), backgroundColor: bluePrimary,
       ),
       body: RefreshIndicator(
         key: _refresh,
-        onRefresh: ()=>context.read<KegiatanCubit>().proses(),
+        onRefresh: ()=>context.read<KegiatanCubit>().init(widget.status),
         child: (widget.model?.results?.isEmpty??true)?NoData(message: 'Data belum ada') : SingleChildScrollView(
           controller: _scrollController..addListener(() {
 
@@ -203,14 +205,14 @@ class _ProsesBodyState extends State<ProsesBody>{
                                                   )
                                               );
                                             }, child: Text('Status'),),
-                                            (widget.model?.results?[index].anggota?.isEmpty == false) ? IconButton(
+                                            (widget.model?.results?[index].anggota != null) ? IconButton(
                                                 onPressed: (){
                                                   int? id = widget.model?.results?[index].id;
                                                   AutoRouter.of(context).push(AnggotaRoute(id: id!));
                                                 },
                                                 icon: Icon(Icons.people, color: bluePrimary,)
                                             ) : SizedBox(),
-                                            (widget.model?.results?[index].iuran?.isEmpty == false) ? IconButton(
+                                            (widget.model?.results?[index].iuran != null) ? IconButton(
                                                 onPressed: (){
                                                   int? id = widget.model?.results?[index].id;
                                                   AutoRouter.of(context).push(IuranRoute(id: id!));

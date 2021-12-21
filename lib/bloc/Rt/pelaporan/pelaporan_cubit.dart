@@ -5,6 +5,8 @@ import 'package:dio/dio.dart';
 import 'package:equatable/equatable.dart';
 import 'package:injectable/injectable.dart';
 import 'package:smart_residence/config/locator.dart';
+import 'package:smart_residence/model/list_pelaporan_model.dart';
+import 'package:smart_residence/service/http_service.dart';
 import 'package:smart_residence/service/pelaporan_service.dart';
 import 'package:smart_residence/utils/preferences_helper.dart';
 
@@ -13,15 +15,19 @@ part 'pelaporan_state.dart';
 @injectable
 class PelaporanCubit extends Cubit<PelaporanState> {
   final PelaporanService pelaporanService;
-  PelaporanCubit(this.pelaporanService) : super(PelaporanInitial());
+  final HttpService httpService;
+  PelaporanCubit(this.pelaporanService, this.httpService) : super(PelaporanInitial());
+  ListPelaporanModel? model;
+  late List<Result> data;
   String? id;
+  String? id_rt;
 
-  Future init() async {
+  Future init(String status) async {
     try{
       emit(PelaporanLoading());
-      this.id = await locator<PreferencesHelper>().getValue('id_rt');
-      if(this.id!=null){
-        // model = await informasiService.getInformasi(id.toString());
+      this.id_rt = await locator<PreferencesHelper>().getValue('id_rt');
+      if(this.id_rt!=null){
+        model = await pelaporanService.getPelaporan(id_rt.toString(), status);
       }
       emit(PelaporanLoaded());
     }catch (e){
@@ -29,28 +35,13 @@ class PelaporanCubit extends Cubit<PelaporanState> {
     }
   }
 
-  Future create(Map data, {bool dist=false}) async {
-    data['id_rt'] = id;
-    final currentState = state;
-    if (state is PelaporanLoaded){
-      try{
-        emit(PelaporanCreating());
-        List<MapEntry<String, MultipartFile>> listFoto = [];
-        File file = File(data['foto']);
-        String fileName = file.path.split('/').last;
-        listFoto.add(MapEntry(
-            "file", MultipartFile.fromFileSync(file.path, filename: fileName)));
-        FormData formData = FormData();
-        formData.files.addAll(listFoto);
-        String foto = await pelaporanService.postFoto(formData);
-        data..addAll({"gambar": foto});
-        await pelaporanService.create(data);
-        emit(PelaporanCreated());
-        emit(currentState);
-      } catch (e){
-        emit(PelaporanError(e.toString()));
-        emit(currentState);
-      }
+  Future prosesPelaporan(String id, String status) async{
+    try{
+      emit(PelaporanUpdating());
+      await pelaporanService.proses(id, status);
+      emit(PelaporanUpdated());
+    }catch (e){
+      emit(PelaporanError(e.toString()));
     }
   }
 }

@@ -51,6 +51,12 @@ class _InformasiState extends State<Informasi>{
               EasyLoading.dismiss();
               EasyLoading.showSuccess('Berhasil merubah data');
               AutoRouter.of(context).popAndPush(InformasiRoute());
+            }else if(state is InformasiDeleting){
+              EasyLoading.show(status: 'Loading',dismissOnTap: false,maskType: EasyLoadingMaskType.black);
+            }else if (state is InformasiDeleted){
+              EasyLoading.dismiss();
+              EasyLoading.showSuccess('Berhasil menghapus data');
+              AutoRouter.of(context).popAndPush(InformasiRoute());
             }else if (state is InformasiError){
               EasyLoading.dismiss();
               EasyLoading.showError(state.message!);
@@ -181,8 +187,8 @@ class _InformasiBodyState extends State<InformasiBody>{
                                         Divider(),
                                         Text(widget.model?.results?[index].keterangan ?? ''),
                                         Row(
-                                          crossAxisAlignment: CrossAxisAlignment.end,
-                                          mainAxisAlignment: MainAxisAlignment.end,
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          mainAxisAlignment: MainAxisAlignment.start,
                                           children: [
                                             IconButton(
                                                 onPressed: (){
@@ -448,10 +454,111 @@ class EditInformasi extends StatefulWidget{
 }
 
 class _EditInformasiState extends State<EditInformasi>{
+  GlobalKey<FormState> _form = GlobalKey();
+  TextEditingController judul = TextEditingController();
+  TextEditingController isi = TextEditingController();
+  TextEditingController keterangan = TextEditingController();
+  TextEditingController tanggal = TextEditingController();
+  @override
+  void initState() {
+    super.initState();
+    DateTime? tgl = widget.model?.results?[widget.index].tanggal;
+    judul.text = widget.model?.results?[widget.index].judul ?? '';
+    isi.text = widget.model?.results?[widget.index].isi ?? '';
+    keterangan.text = widget.model?.results?[widget.index].keterangan ?? '';
+    tanggal.text = dbDateFormat(tgl!);
+  }
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
-    throw UnimplementedError();
+    return SingleChildScrollView(
+      child: Container(
+        padding: EdgeInsets.all(20),
+        child: Form(
+          key: _form,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text("Tambah Informasi", style: TextStyle(fontSize: 18),),
+              CustomForm(
+                  label: "Judul",
+                  child: TextFormField(
+                    keyboardType: TextInputType.text,
+                    controller: judul,
+                    validator: (value) => validateForm(value?.toString()?? '', label: 'Judul'),
+                    decoration: InputDecoration(
+                      hintText: 'Masukkan judul informasi',
+                    ),
+                  )
+              ),
+              CustomForm(
+                  label: "Isi",
+                  child: TextFormField(
+                    keyboardType: TextInputType.multiline,
+                    controller: isi,
+                    maxLines: 6,
+                    validator: (value) => validateForm(value?.toString()?? '', label: 'Isi Informasi'),
+                    decoration: InputDecoration(
+                      hintText: 'Masukkan isi informasi',
+                    ),
+                  )
+              ),
+              CustomForm(
+                  label: "Keterangan",
+                  child: TextFormField(
+                    keyboardType: TextInputType.text,
+                    controller: keterangan,
+                    validator: (value) => validateForm(value?.toString()?? '', label: 'Keterangan'),
+                    decoration: InputDecoration(
+                      hintText: 'Masukkan keterangan informasi',
+                    ),
+                  )
+              ),
+              CustomForm(
+                label: 'Tanggal',
+                child: TextFormField(
+                  controller: tanggal,
+                  validator: (value)=>validateForm(value.toString(), label: 'Tanggal'),
+                  readOnly: true,
+                  onTap: (){
+                    showDatePicker(
+                      context: context,
+                      initialDate: DateTime.now(),
+                      lastDate: DateTime(2100),
+                      firstDate: DateTime(2000),
+                    ).then((value){
+                      if(value!=null){
+                        tanggal.text = dbDateFormat(value);
+                      }
+                    });
+                  },
+                  decoration: InputDecoration(
+                      hintText: 'Pilih tanggal kegiatan'
+                  ),
+                ),
+              ),
+              SizedBox(height: 20,),
+              CustomButton(
+                  label: 'Simpan',
+                  onPressed: (){
+                    FocusScope.of(context).unfocus();
+                    if(_form.currentState!.validate()){
+                      Map data = {
+                        'id' : widget.model?.results?[widget.index].id,
+                        'judul' : judul.text,
+                        'isi' : isi.text,
+                        'keterangan' : keterangan.text,
+                        'tanggal' : tanggal.text,
+                      };
+                      Navigator.pop(context, data);
+                    }
+                  },
+                  color: bluePrimary),
+              SizedBox(height: MediaQuery.of(context).viewInsets.bottom,)
+            ],
+          ),
+        ),
+      ),
+    );
   }
 }
 

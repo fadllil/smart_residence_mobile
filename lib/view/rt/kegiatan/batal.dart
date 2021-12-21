@@ -13,7 +13,8 @@ import 'package:smart_residence/view/components/loading_com.dart';
 import 'package:smart_residence/view/components/no_data.dart';
 
 class Batal extends StatefulWidget{
-  const Batal({Key? key}) : super (key: key);
+  final String status;
+  const Batal({Key? key, required this.status}) : super (key: key);
 
   @override
   _BatalState createState() => _BatalState();
@@ -23,7 +24,7 @@ class _BatalState extends State<Batal>{
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_)=>locator<KegiatanCubit>()..batal(),
+      create: (_)=>locator<KegiatanCubit>()..init(widget.status),
       child: Scaffold(
         body: BlocConsumer<KegiatanCubit, KegiatanState>(
           listener: (context, state){
@@ -41,12 +42,12 @@ class _BatalState extends State<Batal>{
           builder: (context, state){
             if(state is KegiatanFailure){
               return ErrorComponent(onPressed: (){
-                context.read<KegiatanCubit>().batal();
+                context.read<KegiatanCubit>().init(widget.status);
               }, message: state.message,);
             }else if(state is KegiatanLoading){
               return LoadingComp();
             }
-            return BatalBody(model: context.select((KegiatanCubit bloc) => bloc.model));
+            return BatalBody(model: context.select((KegiatanCubit bloc) => bloc.model), status: widget.status,);
           },
         ),
       ),
@@ -56,7 +57,8 @@ class _BatalState extends State<Batal>{
 
 class BatalBody extends StatefulWidget{
   final ListKegiatanModel? model;
-  const BatalBody({Key? key, this.model}) : super (key: key);
+  final String status;
+  const BatalBody({Key? key, this.model, required this.status}) : super (key: key);
 
   @override
   _BatalBodyState createState() => _BatalBodyState();
@@ -76,7 +78,7 @@ class _BatalBodyState extends State<BatalBody>{
     return Scaffold(
       body: RefreshIndicator(
         key: _refresh,
-        onRefresh: ()=>context.read<KegiatanCubit>().batal(),
+        onRefresh: ()=>context.read<KegiatanCubit>().init(widget.status),
         child: (widget.model?.results?.isEmpty??true)?NoData(message: 'Data belum ada') : SingleChildScrollView(
           controller: _scrollController..addListener(() {
 
@@ -144,14 +146,23 @@ class _BatalBodyState extends State<BatalBody>{
                                           crossAxisAlignment: CrossAxisAlignment.end,
                                           mainAxisAlignment: MainAxisAlignment.end,
                                           children: [
-                                            (widget.model?.results?[index].anggota?.isEmpty == false) ? IconButton(
-                                                onPressed: (){
-                                                  int? id = widget.model?.results?[index].id;
-                                                  AutoRouter.of(context).push(AnggotaRoute(id: id!));
-                                                },
-                                                icon: Icon(Icons.people, color: bluePrimary,)
+                                            (widget.model?.results?[index].anggota != null) ?
+                                            (
+                                                (widget.model?.results?[index].anggota?.status == "Panitia")?IconButton(
+                                                    onPressed: (){
+                                                      int? id = widget.model?.results?[index].id;
+                                                      AutoRouter.of(context).push(AnggotaRoute(id: id!));
+                                                    },
+                                                    icon: Icon(Icons.people, color: bluePrimary,)
+                                                ) : IconButton(
+                                                    onPressed: (){
+                                                      int? id = widget.model?.results?[index].id;
+                                                      AutoRouter.of(context).push(KegiatanPesertaRoute(id: id!));
+                                                    },
+                                                    icon: Icon(Icons.people, color: bluePrimary,)
+                                                )
                                             ) : SizedBox(),
-                                            (widget.model?.results?[index].iuran?.isEmpty == false) ? IconButton(
+                                            (widget.model?.results?[index].iuran != null) ? IconButton(
                                                 onPressed: (){
                                                   int? id = widget.model?.results?[index].id;
                                                   AutoRouter.of(context).push(IuranRoute(id: id!));

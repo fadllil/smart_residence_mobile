@@ -12,18 +12,19 @@ import 'package:smart_residence/view/components/error_component.dart';
 import 'package:smart_residence/view/components/loading_com.dart';
 import 'package:smart_residence/view/components/no_data.dart';
 
-class PengantarWarga extends StatefulWidget{
-  const PengantarWarga({Key? key}) : super (key: key);
+class SelesaiWarga extends StatefulWidget{
+  const SelesaiWarga({Key? key}) : super (key: key);
 
   @override
-  _PengantarWargaState createState() => _PengantarWargaState();
+  _SelesaiWargaState createState() => _SelesaiWargaState();
 }
 
-class _PengantarWargaState extends State<PengantarWarga>{
+class _SelesaiWargaState extends State<SelesaiWarga>{
+  final String status = 'Selesai';
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_)=>locator<SuratWargaCubit>()..getSuratPengantar(),
+      create: (_)=>locator<SuratWargaCubit>()..getPengajuanSurat(status),
       child: Scaffold(
         body: BlocConsumer<SuratWargaCubit, SuratWargaState>(
           listener: (context, state){
@@ -47,12 +48,12 @@ class _PengantarWargaState extends State<PengantarWarga>{
           builder: (context, state){
             if(state is SuratWargaFailure){
               return ErrorComponent(onPressed: (){
-                context.read<SuratWargaCubit>().getSuratPengantar();
+                context.read<SuratWargaCubit>().getPengajuanSurat(status);
               }, message: state.message,);
             }else if(state is SuratWargaLoading){
               return LoadingComp();
             }
-            return SuratPengantarWargaBody(model: context.select((SuratWargaCubit bloc) => bloc.model), http: context.select((SuratWargaCubit bloc) => bloc.httpService),);
+            return SelesaiWargaBody(model: context.select((SuratWargaCubit bloc) => bloc.model), http: context.select((SuratWargaCubit bloc) => bloc.httpService), status: status,);
           },
         ),
       ),
@@ -60,16 +61,17 @@ class _PengantarWargaState extends State<PengantarWarga>{
   }
 }
 
-class SuratPengantarWargaBody extends StatefulWidget{
+class SelesaiWargaBody extends StatefulWidget{
+  final String status;
   final ListSuratWargaModel? model;
   final HttpService http;
-  const SuratPengantarWargaBody({Key? key, required this.model, required this.http}) : super (key: key);
+  const SelesaiWargaBody({Key? key, required this.status, required this.model, required this.http}) : super (key: key);
 
   @override
-  _SuratPengantarWargaBodyState createState() => _SuratPengantarWargaBodyState();
+  _SelesaiWargaBodyState createState() => _SelesaiWargaBodyState();
 }
 
-class _SuratPengantarWargaBodyState extends State<SuratPengantarWargaBody>{
+class _SelesaiWargaBodyState extends State<SelesaiWargaBody>{
   ScrollController _scrollController = ScrollController();
   GlobalKey<RefreshIndicatorState> _refresh = GlobalKey();
 
@@ -83,7 +85,7 @@ class _SuratPengantarWargaBodyState extends State<SuratPengantarWargaBody>{
     return Scaffold(
       body: RefreshIndicator(
           key: _refresh,
-          onRefresh: ()=>context.read<SuratWargaCubit>().getSuratKeterangan(),
+          onRefresh: ()=>context.read<SuratWargaCubit>().getPengajuanSurat(widget.status),
           child: (widget.model?.results?.isEmpty??true)?NoData(message: 'Data belum ada') : SingleChildScrollView(
             controller: _scrollController..addListener(() {
             }),
@@ -129,8 +131,8 @@ class _SuratPengantarWargaBodyState extends State<SuratPengantarWargaBody>{
                                         Row(
                                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                           children: [
-                                            Text(widget.model?.results ? [index]
-                                                .jenis ?? '',
+                                            Text('${widget.model?.results ? [index]
+                                                .jenisSurat?.jenis}',
                                               style: TextStyle(fontSize: 18),),
                                             Column(
                                               crossAxisAlignment: CrossAxisAlignment.start,

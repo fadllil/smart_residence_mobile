@@ -42,9 +42,9 @@ class _KegiatanState extends State<Kegiatan> with SingleTickerProviderStateMixin
       body: TabBarView(
         controller: _tabController,
         children: [
-          Proses(),
-          Selesai(),
-          Batal(),
+          Proses(status: "Belum Terlaksana",),
+          Selesai(status: "Selesai",),
+          Batal(status: "Batal"),
         ],
       ),
     );

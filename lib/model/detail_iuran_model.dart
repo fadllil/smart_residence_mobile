@@ -14,84 +14,60 @@ class DetailIuranModel {
   });
 
   String? message;
-  Results? results;
+  List<Result>? results;
   int? code;
 
   factory DetailIuranModel.fromJson(Map<String, dynamic> json) => DetailIuranModel(
     message: json["message"] == null ? null : json["message"],
-    results: json["results"] == null ? null : Results.fromJson(json["results"]),
+    results: json["results"] == null ? null : List<Result>.from(json["results"].map((x) => Result.fromJson(x))),
     code: json["code"] == null ? null : json["code"],
   );
 }
 
-class Results {
-  Results({
-    this.id,
-    this.idKegiatan,
-    this.status,
-    this.nominal,
-    this.tglTerakhirPembayaran,
-    this.createdAt,
-    this.updatedAt,
-    this.detailIuran,
-  });
-
-  int? id;
-  int? idKegiatan;
-  String? status;
-  int? nominal;
-  DateTime? tglTerakhirPembayaran;
-  DateTime? createdAt;
-  DateTime? updatedAt;
-  List<DetailIuran>? detailIuran;
-
-  factory Results.fromJson(Map<String, dynamic> json) => Results(
-    id: json["id"] == null ? null : json["id"],
-    idKegiatan: json["id_kegiatan"] == null ? null : json["id_kegiatan"],
-    status: json["status"] == null ? null : json["status"],
-    nominal: json["nominal"] == null ? null : json["nominal"],
-    tglTerakhirPembayaran: json["tgl_terakhir_pembayaran"] == null ? null : DateTime.parse(json["tgl_terakhir_pembayaran"]),
-    createdAt: json["created_at"] == null ? null : DateTime.parse(json["created_at"]),
-    updatedAt: json["updated_at"] == null ? null : DateTime.parse(json["updated_at"]),
-    detailIuran: json["detail_iuran"] == null ? null : List<DetailIuran>.from(json["detail_iuran"].map((x) => DetailIuran.fromJson(x))),
-  );
-}
-
-class DetailIuran {
-  DetailIuran({
+class Result {
+  Result({
     this.id,
     this.idIuran,
     this.idUser,
     this.uang,
     this.tglPembayaran,
     this.status,
+    this.gambar,
     this.keterangan,
     this.createdAt,
     this.updatedAt,
+    this.nominal,
+    this.tglTerakhirPembayaran,
     this.user,
   });
 
   int? id;
   int? idIuran;
   int? idUser;
-  dynamic uang;
-  dynamic tglPembayaran;
+  int? uang;
+  DateTime? tglPembayaran;
   String? status;
-  dynamic keterangan;
+  String? gambar;
+  String? keterangan;
   DateTime? createdAt;
   DateTime? updatedAt;
+  int? nominal;
+  DateTime? tglTerakhirPembayaran;
   User? user;
 
-  factory DetailIuran.fromJson(Map<String, dynamic> json) => DetailIuran(
+  factory Result.fromJson(Map<String, dynamic> json) => Result(
     id: json["id"] == null ? null : json["id"],
     idIuran: json["id_iuran"] == null ? null : json["id_iuran"],
     idUser: json["id_user"] == null ? null : json["id_user"],
-    uang: json["uang"],
-    tglPembayaran: json["tgl_pembayaran"],
+    uang: json["uang"] == null ? null : json["uang"],
+    tglPembayaran: json["tgl_pembayaran"] == null ? null : DateTime.parse(json["tgl_pembayaran"]),
     status: json["status"] == null ? null : json["status"],
-    keterangan: json["keterangan"],
+    gambar: json["gambar"] == null ? null : json["gambar"],
+    keterangan: json["keterangan"] == null ? null : json["keterangan"],
     createdAt: json["created_at"] == null ? null : DateTime.parse(json["created_at"]),
     updatedAt: json["updated_at"] == null ? null : DateTime.parse(json["updated_at"]),
+    nominal: json["nominal"] == null ? null : json["nominal"],
+    tglTerakhirPembayaran: json["tgl_terakhir_pembayaran"] == null ? null : DateTime.parse(json["tgl_terakhir_pembayaran"]),
     user: json["user"] == null ? null : User.fromJson(json["user"]),
   );
 }

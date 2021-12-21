@@ -92,11 +92,6 @@ class _LoginFormState extends State<LoginForm> {
                         fontWeight: FontWeight.bold,
                         color: bluePrimary),
                   ),
-                  Text(
-                    Strings.tagLine,
-                    style: TextStyle(fontSize: 20),
-                    textAlign: TextAlign.center,
-                  ),
                   SizedBox(
                     height: 250,
                     width: 250,

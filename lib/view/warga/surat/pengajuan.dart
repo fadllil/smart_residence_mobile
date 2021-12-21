@@ -6,6 +6,7 @@ import 'package:smart_residence/bloc/warga/surat/surat_warga_cubit.dart';
 import 'package:smart_residence/config/locator.dart';
 import 'package:smart_residence/config/router.gr.dart';
 import 'package:smart_residence/constants/themes.dart';
+import 'package:smart_residence/model/jenis_surat_model.dart';
 import 'package:smart_residence/model/list_surat_warga_model.dart';
 import 'package:smart_residence/service/http_service.dart';
 import 'package:smart_residence/utils/string_helper.dart';
@@ -17,18 +18,19 @@ import 'package:smart_residence/view/components/loading_com.dart';
 import 'package:smart_residence/view/components/no_data.dart';
 import 'package:smart_residence/view/rt/surat/surat.dart';
 
-class KeteranganWarga extends StatefulWidget{
-  const KeteranganWarga({Key? key}) : super (key: key);
+class PengajuanWarga extends StatefulWidget{
+  const PengajuanWarga({Key? key}) : super (key: key);
 
   @override
-  _KeteranganWargaState createState() => _KeteranganWargaState();
+  _PengajuanWargaState createState() => _PengajuanWargaState();
 }
 
-class _KeteranganWargaState extends State<KeteranganWarga>{
+class _PengajuanWargaState extends State<PengajuanWarga>{
+  final String status = "Pengajuan";
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_)=>locator<SuratWargaCubit>()..getSuratKeterangan(),
+      create: (_)=>locator<SuratWargaCubit>()..getPengajuanSurat(status),
       child: Scaffold(
         body: BlocConsumer<SuratWargaCubit, SuratWargaState>(
           listener: (context, state){
@@ -52,12 +54,15 @@ class _KeteranganWargaState extends State<KeteranganWarga>{
           builder: (context, state){
             if(state is SuratWargaFailure){
               return ErrorComponent(onPressed: (){
-                context.read<SuratWargaCubit>().getSuratKeterangan();
+                context.read<SuratWargaCubit>().getPengajuanSurat(status);
               }, message: state.message,);
             }else if(state is SuratWargaLoading){
               return LoadingComp();
             }
-            return SuratKeteranganWargaBody(model: context.select((SuratWargaCubit bloc) => bloc.model), http: context.select((SuratWargaCubit bloc) => bloc.httpService),);
+            return PengajuanWargaBody(
+              model: context.select((SuratWargaCubit bloc) => bloc.model),
+              jenisSuratModel: context.select((SuratWargaCubit bloc) => bloc.jenisSuratModel),
+              http: context.select((SuratWargaCubit bloc) => bloc.httpService), status: status,);
           },
         ),
       ),
@@ -65,16 +70,18 @@ class _KeteranganWargaState extends State<KeteranganWarga>{
   }
 }
 
-class SuratKeteranganWargaBody extends StatefulWidget{
+class PengajuanWargaBody extends StatefulWidget{
+  final String status;
   final ListSuratWargaModel? model;
+  final JenisSuratModel? jenisSuratModel;
   final HttpService http;
-  const SuratKeteranganWargaBody({Key? key, required this.model, required this.http}) : super (key: key);
+  const PengajuanWargaBody({Key? key, required this.status, required this.model, required this.jenisSuratModel, required this.http}) : super (key: key);
 
   @override
-  _SuratKeteranganWargaBodyState createState() => _SuratKeteranganWargaBodyState();
+  _PengajuanWargaBodyState createState() => _PengajuanWargaBodyState();
 }
 
-class _SuratKeteranganWargaBodyState extends State<SuratKeteranganWargaBody>{
+class _PengajuanWargaBodyState extends State<PengajuanWargaBody>{
   ScrollController _scrollController = ScrollController();
   GlobalKey<RefreshIndicatorState> _refresh = GlobalKey();
 
@@ -96,7 +103,7 @@ class _SuratKeteranganWargaBodyState extends State<SuratKeteranganWargaBody>{
               isScrollControlled: true,
               context: context,
               builder: (context){
-                return TambahSurat(c:context);
+                return TambahSurat(c:context, jenisSuratModel: widget.jenisSuratModel,);
               }
           ).then((value){
             if(value!=null){
@@ -108,7 +115,7 @@ class _SuratKeteranganWargaBodyState extends State<SuratKeteranganWargaBody>{
       ),
       body: RefreshIndicator(
           key: _refresh,
-          onRefresh: ()=>context.read<SuratWargaCubit>().getSuratKeterangan(),
+          onRefresh: ()=>context.read<SuratWargaCubit>().getPengajuanSurat(widget.status),
           child: (widget.model?.results?.isEmpty??true)?NoData(message: 'Data belum ada') : SingleChildScrollView(
             controller: _scrollController..addListener(() {
             }),
@@ -154,8 +161,8 @@ class _SuratKeteranganWargaBodyState extends State<SuratKeteranganWargaBody>{
                                         Row(
                                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                           children: [
-                                            Text(widget.model?.results ? [index]
-                                                .jenis ?? '',
+                                            Text('${widget.model?.results ? [index]
+                                                .jenisSurat?.jenis}',
                                               style: TextStyle(fontSize: 18),),
                                             Column(
                                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -247,7 +254,8 @@ class _SuratKeteranganWargaBodyState extends State<SuratKeteranganWargaBody>{
 
 class TambahSurat extends StatefulWidget{
   final BuildContext c;
-  const TambahSurat({Key? key, required this.c}) : super (key: key);
+  final JenisSuratModel? jenisSuratModel;
+  const TambahSurat({Key? key, required this.c, required this.jenisSuratModel}) : super (key: key);
 
   @override
   _TambahSuratState createState() => _TambahSuratState();
@@ -258,7 +266,6 @@ class _TambahSuratState extends State<TambahSurat>{
   TextEditingController keterangan = TextEditingController();
   TextEditingController tgl = TextEditingController();
   String? jenis;
-  String? foto;
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -273,9 +280,9 @@ class _TambahSuratState extends State<TambahSurat>{
               CustomForm(
                 label: 'Jenis Surat',
                 child: DropdownButtonFormField(
-                  items: ['Surat Pengantar','Surat Keterangan'].map((e) => DropdownMenuItem(
-                    child: Text('$e'),
-                    value: e,
+                  items: widget.jenisSuratModel?.results?.map((e) => DropdownMenuItem(
+                    child: Text('${e.jenis}'),
+                    value: e.id.toString(),
                   ))
                       .toList(),
                   value: jenis,
@@ -288,18 +295,7 @@ class _TambahSuratState extends State<TambahSurat>{
                 ),
               ),
               CustomForm(
-                  label: "Keterangan",
-                  child: TextFormField(
-                    keyboardType: TextInputType.text,
-                    controller: keterangan,
-                    validator: (value) => validateForm(value?.toString()?? '', label: 'Keterangan'),
-                    decoration: InputDecoration(
-                      hintText: 'Masukkan keterangan',
-                    ),
-                  )
-              ),
-              CustomForm(
-                label: 'Tanggal',
+                label: 'Tanggal Pemakaian Surat',
                 child: TextFormField(
                   controller: tgl,
                   validator: (value)=>validateForm(value.toString(), label: 'Tanggal'),
@@ -321,6 +317,17 @@ class _TambahSuratState extends State<TambahSurat>{
                   ),
                 ),
               ),
+              CustomForm(
+                  label: "Keterangan",
+                  child: TextFormField(
+                    keyboardType: TextInputType.text,
+                    controller: keterangan,
+                    validator: (value) => validateForm(value?.toString()?? '', label: 'Keterangan'),
+                    decoration: InputDecoration(
+                      hintText: 'Masukkan keterangan',
+                    ),
+                  )
+              ),
               SizedBox(height: 20,),
               CustomButton(
                   label: 'Simpan',
@@ -328,7 +335,7 @@ class _TambahSuratState extends State<TambahSurat>{
                     FocusScope.of(context).unfocus();
                     if(_form.currentState!.validate()){
                       Map data = {
-                        'jenis' : jenis,
+                        'id_jenis_surat' : jenis,
                         'keterangan' : keterangan.text,
                         'tanggal' : tgl.text
                       };

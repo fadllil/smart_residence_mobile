@@ -6,6 +6,7 @@ import 'package:smart_residence/bloc/Rt/dashboard/dashboard_rt_cubit.dart';
 import 'package:smart_residence/config/locator.dart';
 import 'package:smart_residence/config/router.gr.dart';
 import 'package:smart_residence/constants/themes.dart';
+import 'package:smart_residence/model/list_warga_model.dart';
 import 'package:smart_residence/utils/string_helper.dart';
 import 'package:smart_residence/view/components/error_component.dart';
 import 'package:smart_residence/view/components/heading_title.dart';
@@ -38,7 +39,7 @@ class _DashboardRtState extends State<DashboardRt> {
             }else if(state is DashboardRtLoading){
               return LoadingComp();
             }
-            return DashboardRtBody(tab: widget.tab, state: (state as DashboardRtLoaded));
+            return DashboardRtBody(tab: widget.tab, state: (state as DashboardRtLoaded), model: context.select((DashboardRtCubit bloc) => bloc.model));
           },
         )
       ),
@@ -47,9 +48,10 @@ class _DashboardRtState extends State<DashboardRt> {
 }
 
 class DashboardRtBody extends StatefulWidget{
+  final ListWargaModel? model;
   final DashboardRtLoaded state;
   final TabController tab;
-  const DashboardRtBody({Key? key, required this.state, required this.tab}) : super (key: key);
+  const DashboardRtBody({Key? key, required this.state, required this.tab, required this.model}) : super (key: key);
 
   @override
   _DashboardRtBodyState createState() => _DashboardRtBodyState();
@@ -164,7 +166,15 @@ class _DashboardRtBodyState extends State<DashboardRtBody>{
                           icon: Icons.verified_user,
                         ),
                       ),
-                      SizedBox(width: 80,),
+                      InkWell(
+                        onTap: (){
+                          AutoRouter.of(context).push(JenisSuratRoute());
+                        },
+                        child: DashboardCard(
+                          title: 'Jenis Surat',
+                          icon: Icons.verified_user,
+                        ),
+                      ),
                       SizedBox(width: 80,),
                     ],
                   ),
@@ -173,42 +183,38 @@ class _DashboardRtBodyState extends State<DashboardRtBody>{
               SizedBox(
                 height: 10,
               ),
-              ListTile(
-                tileColor: Colors.orange,
-                title: Text('1 Pengiriman sedang dijalan',style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold),),
-                leading: CircleAvatar(
-                  radius: 20,
-                  backgroundColor: Colors.white,
-                  child: Icon(Icons.delivery_dining,color: kPrimaryColor),
-                ),
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20)
-                ),
-              ),
               HeadingTitle(
-                title: 'Pengeluaran',
+                title: 'Warga',
                 onTap: () {
                   print('oce');
                 },
               ),
               ListView.builder(
-                itemCount: 10,
+                itemCount: widget.model?.results?.length,
                 physics: NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
-                itemBuilder: (context,index)=>Column(
+                itemBuilder: (context, index)=>Column(
                   children: [
                     ListTile(
-                      title: Text('Es Batu'),
+                      title: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(widget.model?.results?[index].user?.nama??''),
+                          Text(widget.model?.results?[index].alamat??''),
+                        ],
+                      ),
                       leading: CircleAvatar(
                         radius: 20,
-                        backgroundColor: kPrimaryColor,
-                        child: Icon(Icons.agriculture,color: Colors.white,),
+                        backgroundColor: bluePrimary,
+                        child: Icon(Icons.person, color: Colors.white,),
                       ),
-                      trailing: Text('-${valueRupiah(45000)}',style: TextStyle(color: Colors.green),),
+                      onTap: (){
+                        AutoRouter.of(context).push(DetailWargaRoute(model: widget.model, index: index));
+                      },
                     ),
                     Divider()
                   ],
-                ),
+                ) ,
               ),
             ],
           ),

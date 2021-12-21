@@ -18,9 +18,9 @@ class ListKegiatanModel {
   int? code;
 
   factory ListKegiatanModel.fromJson(Map<String, dynamic> json) => ListKegiatanModel(
-    message: json["message"],
-    results: List<Result>.from(json["results"].map((x) => Result.fromJson(x))),
-    code: json["code"],
+    message: json["message"] == null ? null : json["message"],
+    results: json["results"] == null ? null : List<Result>.from(json["results"].map((x) => Result.fromJson(x))),
+    code: json["code"] == null ? null : json["code"],
   );
 }
 
@@ -50,22 +50,22 @@ class Result {
   String? catatan;
   DateTime? createdAt;
   DateTime? updatedAt;
-  List<Anggota>? anggota;
-  List<Iuran>? iuran;
+  Anggota? anggota;
+  Iuran? iuran;
 
   factory Result.fromJson(Map<String, dynamic> json) => Result(
-    id: json["id"],
-    idRt: json["id_rt"],
-    nama: json["nama"],
-    tglMulai: DateTime.parse(json["tgl_mulai"]),
-    tglSelesai: DateTime.parse(json["tgl_selesai"]),
-    lokasi: json["lokasi"],
-    status: json["status"],
-    catatan: json["catatan"],
-    createdAt: DateTime.parse(json["created_at"]),
-    updatedAt: DateTime.parse(json["updated_at"]),
-    anggota: List<Anggota>.from(json["anggota"].map((x) => Anggota.fromJson(x))),
-    iuran: List<Iuran>.from(json["iuran"].map((x) => Iuran.fromJson(x))),
+    id: json["id"] == null ? null : json["id"],
+    idRt: json["id_rt"] == null ? null : json["id_rt"],
+    nama: json["nama"] == null ? null : json["nama"],
+    tglMulai: json["tgl_mulai"] == null ? null : DateTime.parse(json["tgl_mulai"]),
+    tglSelesai: json["tgl_selesai"] == null ? null : DateTime.parse(json["tgl_selesai"]),
+    lokasi: json["lokasi"] == null ? null : json["lokasi"],
+    status: json["status"] == null ? null : json["status"],
+    catatan: json["catatan"] == null ? null : json["catatan"],
+    createdAt: json["created_at"] == null ? null : DateTime.parse(json["created_at"]),
+    updatedAt: json["updated_at"] == null ? null : DateTime.parse(json["updated_at"]),
+    anggota: json["anggota"] == null ? null : Anggota.fromJson(json["anggota"]),
+    iuran: json["iuran"] == null ? null : Iuran.fromJson(json["iuran"]),
   );
 }
 
@@ -87,12 +87,12 @@ class Anggota {
   DateTime? updatedAt;
 
   factory Anggota.fromJson(Map<String, dynamic> json) => Anggota(
-    id: json["id"],
-    idKegiatan: json["id_kegiatan"],
-    status: json["status"],
+    id: json["id"] == null ? null : json["id"],
+    idKegiatan: json["id_kegiatan"] == null ? null : json["id_kegiatan"],
+    status: json["status"] == null ? null : json["status"],
     maksimalAnggota: json["maksimal_anggota"] == null ? null : json["maksimal_anggota"],
-    createdAt: DateTime.parse(json["created_at"]),
-    updatedAt: DateTime.parse(json["updated_at"]),
+    createdAt: json["created_at"] == null ? null : DateTime.parse(json["created_at"]),
+    updatedAt: json["updated_at"] == null ? null : DateTime.parse(json["updated_at"]),
   );
 }
 
@@ -116,12 +116,12 @@ class Iuran {
   DateTime? updatedAt;
 
   factory Iuran.fromJson(Map<String, dynamic> json) => Iuran(
-    id: json["id"],
-    idKegiatan: json["id_kegiatan"],
-    status: json["status"],
+    id: json["id"] == null ? null : json["id"],
+    idKegiatan: json["id_kegiatan"] == null ? null : json["id_kegiatan"],
+    status: json["status"] == null ? null : json["status"],
     nominal: json["nominal"] == null ? null : json["nominal"],
     tglTerakhirPembayaran: json["tgl_terakhir_pembayaran"] == null ? null : DateTime.parse(json["tgl_terakhir_pembayaran"]),
-    createdAt: DateTime.parse(json["created_at"]),
-    updatedAt: DateTime.parse(json["updated_at"]),
+    createdAt: json["created_at"] == null ? null : DateTime.parse(json["created_at"]),
+    updatedAt: json["updated_at"] == null ? null : DateTime.parse(json["updated_at"]),
   );
 }

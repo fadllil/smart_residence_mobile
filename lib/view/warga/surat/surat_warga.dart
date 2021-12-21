@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:smart_residence/view/warga/surat/keterangan_warga.dart';
-import 'package:smart_residence/view/warga/surat/pengantar_warga.dart';
+import 'package:smart_residence/view/warga/surat/pengajuan.dart';
+import 'package:smart_residence/view/warga/surat/selesai.dart';
 
 class SuratWarga extends StatefulWidget{
   const SuratWarga({Key? key}) : super (key: key);
@@ -27,10 +27,10 @@ class _SuratWargaState extends State<SuratWarga> with SingleTickerProviderStateM
           indicatorColor: Colors.white,
           tabs: [
             Tab(
-              text: 'Surat Keterangan',
+              text: 'Pengajuan',
             ),
             Tab(
-              text: 'Surat Pengantar',
+              text: 'Selesai',
             ),
           ],
         ),
@@ -38,8 +38,8 @@ class _SuratWargaState extends State<SuratWarga> with SingleTickerProviderStateM
       body: TabBarView(
         controller: _tabController,
         children: [
-          KeteranganWarga(),
-          PengantarWarga()
+          PengajuanWarga(),
+          SelesaiWarga()
         ],
       ),
     );

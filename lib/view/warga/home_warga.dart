@@ -4,6 +4,7 @@ import 'package:smart_residence/constants/themes.dart';
 import 'package:smart_residence/view/warga/dashboard_warga.dart';
 import 'package:smart_residence/view/warga/informasi/informasi.dart';
 import 'package:smart_residence/view/warga/kegiatan/kegiatan_warga.dart';
+import 'package:smart_residence/view/warga/keuangan/keuangan_warga.dart';
 import 'package:smart_residence/view/warga/profil_warga.dart';
 
 class HomeWarga extends StatefulWidget {
@@ -19,7 +20,7 @@ class _HomeWargaState extends State<HomeWarga> with SingleTickerProviderStateMix
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 4, vsync: this, initialIndex: widget.index?? 0);
+    _tabController = TabController(length: 5, vsync: this, initialIndex: widget.index?? 0);
   }
   @override
   Widget build(BuildContext context) {
@@ -38,6 +39,7 @@ class _HomeWargaState extends State<HomeWarga> with SingleTickerProviderStateMix
           BottomNavigationBarItem(icon: Icon(Icons.home),label: 'Dashboard'),
           BottomNavigationBarItem(icon: Icon(Icons.info_outlined),label: 'Informasi'),
           BottomNavigationBarItem(icon: Icon(Icons.date_range_outlined),label: 'Kegiatan'),
+          BottomNavigationBarItem(icon: Icon(Icons.monetization_on_rounded),label: 'Keuangan'),
           BottomNavigationBarItem(icon: Icon(Icons.person),label: 'Profil'),
         ],
       ),
@@ -48,6 +50,7 @@ class _HomeWargaState extends State<HomeWarga> with SingleTickerProviderStateMix
           DashboardWarga(tab: _tabController),
           InformasiWarga(tab: _tabController),
           KegiatanWarga(tab: _tabController),
+          KeuanganWarga(tab: _tabController),
           ProfilWarga(tab: _tabController),
         ],
       ),

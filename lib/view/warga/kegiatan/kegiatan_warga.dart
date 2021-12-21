@@ -43,9 +43,9 @@ class _KegiatanWargaState extends State<KegiatanWarga> with SingleTickerProvider
       body: TabBarView(
         controller: _tabController,
         children: [
-          ProsesKegiatan(),
-          SelesaiKegiatan(),
-          BatalKegiatan(),
+          ProsesKegiatan(status: "Belum Terlaksana",),
+          SelesaiKegiatan(status: "Selesai",),
+          BatalKegiatan(status: "Batal",),
         ],
       ),
     );

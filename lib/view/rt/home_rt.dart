@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:smart_residence/constants/themes.dart';
 import 'package:smart_residence/view/rt/dashboard_rt.dart';
 import 'package:smart_residence/view/rt/profil.dart';
-import 'package:smart_residence/view/userview/distribusi_outlet.dart';
 
 class HomeRt extends StatefulWidget {
   final int? index;
@@ -18,7 +17,7 @@ class _HomeRtState extends State<HomeRt> with SingleTickerProviderStateMixin{
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 4, vsync: this, initialIndex: widget.index?? 0);
+    _tabController = TabController(length: 2, vsync: this, initialIndex: widget.index?? 0);
   }
   @override
   Widget build(BuildContext context) {
@@ -35,8 +34,6 @@ class _HomeRtState extends State<HomeRt> with SingleTickerProviderStateMixin{
         currentIndex: _tabController.index,
         items: [
           BottomNavigationBarItem(icon: Icon(Icons.home),label: 'Dashboard'),
-          BottomNavigationBarItem(icon: Icon(Icons.delivery_dining),label: 'Distribusi'),
-          BottomNavigationBarItem(icon: Icon(Icons.account_balance_wallet),label: 'Transaksi'),
           BottomNavigationBarItem(icon: Icon(Icons.person),label: 'Profil'),
         ],
       ),
@@ -45,8 +42,6 @@ class _HomeRtState extends State<HomeRt> with SingleTickerProviderStateMixin{
         controller: _tabController,
         children: [
           DashboardRt(tab: _tabController,),
-          DistribusiOutlet(),
-          Center(child: Text('Transaksi'),),
           ProfilRt(tab: _tabController)
         ],
       ),

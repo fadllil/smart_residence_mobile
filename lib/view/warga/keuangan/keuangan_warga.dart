@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:smart_residence/view/rt/keuangan/pemasukan.dart';
-import 'package:smart_residence/view/rt/keuangan/pengeluaran.dart';
+import 'package:smart_residence/view/warga/keuangan/pemasukan_warga.dart';
+import 'package:smart_residence/view/warga/keuangan/pengeluaran_warga.dart';
 
-class Keuangan extends StatefulWidget{
-  const Keuangan({Key? key}) :super (key: key);
+class KeuanganWarga extends StatefulWidget{
+  final TabController tab;
+  const KeuanganWarga({Key? key, required this.tab}) :super (key: key);
 
   @override
-  _KeuanganState createState() => _KeuanganState();
+  _KeuanganWargaState createState() => _KeuanganWargaState();
 }
 
-class _KeuanganState extends State<Keuangan> with SingleTickerProviderStateMixin{
+class _KeuanganWargaState extends State<KeuanganWarga> with SingleTickerProviderStateMixin{
   late TabController? _tabController;
   @override
   void initState() {
@@ -38,8 +39,8 @@ class _KeuanganState extends State<Keuangan> with SingleTickerProviderStateMixin
       body: TabBarView(
         controller: _tabController,
         children: [
-          Pemasukan(),
-          Pengeluaran()
+          PemasukanWarga(),
+          PengeluaranWarga()
         ],
       ),
     );

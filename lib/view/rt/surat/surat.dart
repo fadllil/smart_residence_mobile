@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:smart_residence/view/rt/surat/pengajuan.dart';
 
 class Surat extends StatefulWidget{
   const Surat({Key? key}) :super (key: key);
@@ -25,10 +26,10 @@ class _SuratState extends State<Surat> with SingleTickerProviderStateMixin{
           indicatorColor: Colors.white,
           tabs: [
             Tab(
-              text: 'Surat Pengantar',
+              text: 'Pengajuan Warga',
             ),
             Tab(
-              text: 'Surat Keterangan',
+              text: 'Selesai',
             )
           ],
         ),
@@ -36,8 +37,8 @@ class _SuratState extends State<Surat> with SingleTickerProviderStateMixin{
       body: TabBarView(
         controller: _tabController,
         children: [
-          Center(child: Text('Surat Pengantar'),),
-          Center(child: Text('Surat Keterangan'),)
+          Pengajuan(),
+          Center(child: Text('Selesai'),)
         ],
       ),
     );

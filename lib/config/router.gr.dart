@@ -7,24 +7,26 @@
 import 'package:auto_route/auto_route.dart' as _i1;
 import 'package:flutter/material.dart' as _i2;
 
-import '../model/list_warga_model.dart' as _i21;
-import '../view/components/option_with_search.dart' as _i19;
+import '../model/list_warga_model.dart' as _i23;
+import '../view/components/option_with_search.dart' as _i20;
 import '../view/login.dart' as _i6;
 import '../view/rt/home_rt.dart' as _i5;
-import '../view/rt/informasi/informasi.dart' as _i13;
-import '../view/rt/kegiatan/detail/anggota.dart' as _i10;
-import '../view/rt/kegiatan/detail/iuran.dart' as _i11;
+import '../view/rt/informasi/informasi.dart' as _i14;
+import '../view/rt/jenis_surat/jenis_surat.dart' as _i22;
+import '../view/rt/kegiatan/detail/anggota.dart' as _i11;
+import '../view/rt/kegiatan/detail/iuran.dart' as _i12;
 import '../view/rt/kegiatan/kegiatan.dart' as _i9;
-import '../view/rt/kegiatan/tambah_kegiatan.dart' as _i18;
-import '../view/rt/keuangan/keuangan.dart' as _i17;
-import '../view/rt/pelaporan/pelaporan.dart' as _i14;
-import '../view/rt/surat/surat.dart' as _i16;
+import '../view/rt/kegiatan/tambah_kegiatan.dart' as _i19;
+import '../view/rt/keuangan/keuangan.dart' as _i18;
+import '../view/rt/pelaporan/pelaporan.dart' as _i15;
+import '../view/rt/surat/surat.dart' as _i17;
 import '../view/rt/warga/detail_warga.dart' as _i8;
 import '../view/rt/warga/warga.dart' as _i7;
 import '../view/splash_screen.dart' as _i3;
-import '../view/warga/kegiatan/detail/iuran_warga.dart' as _i12;
-import '../view/warga/pelaporan/pelaporan_warga.dart' as _i15;
-import '../view/warga/surat/surat_warga.dart' as _i20;
+import '../view/warga/kegiatan/detail/iuran_warga.dart' as _i13;
+import '../view/warga/kegiatan/detail/kegiatan_peserta.dart' as _i10;
+import '../view/warga/pelaporan/pelaporan_warga.dart' as _i16;
+import '../view/warga/surat/surat_warga.dart' as _i21;
 import '../view/welcome-screen/WelcomeScreen.dart' as _i4;
 
 class AppRouter extends _i1.RootStackRouter {
@@ -72,65 +74,76 @@ class AppRouter extends _i1.RootStackRouter {
         builder: (_) {
           return const _i9.Kegiatan();
         }),
+    KegiatanPesertaRoute.name: (routeData) => _i1.MaterialPageX<dynamic>(
+        routeData: routeData,
+        builder: (data) {
+          final args = data.argsAs<KegiatanPesertaRouteArgs>();
+          return _i10.KegiatanPeserta(key: args.key, id: args.id);
+        }),
     AnggotaRoute.name: (routeData) => _i1.MaterialPageX<dynamic>(
         routeData: routeData,
         builder: (data) {
           final args = data.argsAs<AnggotaRouteArgs>();
-          return _i10.Anggota(key: args.key, id: args.id);
+          return _i11.Anggota(key: args.key, id: args.id);
         }),
     IuranRoute.name: (routeData) => _i1.MaterialPageX<dynamic>(
         routeData: routeData,
         builder: (data) {
           final args = data.argsAs<IuranRouteArgs>();
-          return _i11.Iuran(key: args.key, id: args.id);
+          return _i12.Iuran(key: args.key, id: args.id);
         }),
     IuranWargaRoute.name: (routeData) => _i1.MaterialPageX<dynamic>(
         routeData: routeData,
         builder: (data) {
           final args = data.argsAs<IuranWargaRouteArgs>();
-          return _i12.IuranWarga(key: args.key, id: args.id);
+          return _i13.IuranWarga(key: args.key, id: args.id);
         }),
     InformasiRoute.name: (routeData) => _i1.MaterialPageX<dynamic>(
         routeData: routeData,
         builder: (_) {
-          return const _i13.Informasi();
+          return const _i14.Informasi();
         }),
     PelaporanRoute.name: (routeData) => _i1.MaterialPageX<dynamic>(
         routeData: routeData,
         builder: (_) {
-          return const _i14.Pelaporan();
+          return const _i15.Pelaporan();
         }),
     PelaporanWargaRoute.name: (routeData) => _i1.MaterialPageX<dynamic>(
         routeData: routeData,
         builder: (_) {
-          return const _i15.PelaporanWarga();
+          return const _i16.PelaporanWarga();
         }),
     SuratRoute.name: (routeData) => _i1.MaterialPageX<dynamic>(
         routeData: routeData,
         builder: (_) {
-          return const _i16.Surat();
+          return const _i17.Surat();
         }),
     KeuanganRoute.name: (routeData) => _i1.MaterialPageX<dynamic>(
         routeData: routeData,
         builder: (_) {
-          return const _i17.Keuangan();
+          return const _i18.Keuangan();
         }),
     TambahKegiatanRoute.name: (routeData) => _i1.MaterialPageX<dynamic>(
         routeData: routeData,
         builder: (_) {
-          return const _i18.TambahKegiatan();
+          return const _i19.TambahKegiatan();
         }),
     CustomOptionWithSearchRoute.name: (routeData) => _i1.MaterialPageX<dynamic>(
         routeData: routeData,
         builder: (data) {
           final args = data.argsAs<CustomOptionWithSearchRouteArgs>();
-          return _i19.CustomOptionWithSearch(
+          return _i20.CustomOptionWithSearch(
               key: args.key, options: args.options, title: args.title);
         }),
     SuratWargaRoute.name: (routeData) => _i1.MaterialPageX<dynamic>(
         routeData: routeData,
         builder: (_) {
-          return const _i20.SuratWarga();
+          return const _i21.SuratWarga();
+        }),
+    JenisSuratRoute.name: (routeData) => _i1.MaterialPageX<dynamic>(
+        routeData: routeData,
+        builder: (_) {
+          return const _i22.JenisSurat();
         })
   };
 
@@ -143,6 +156,7 @@ class AppRouter extends _i1.RootStackRouter {
         _i1.RouteConfig(WargaRoute.name, path: '/warga'),
         _i1.RouteConfig(DetailWargaRoute.name, path: '/detail_warga'),
         _i1.RouteConfig(KegiatanRoute.name, path: '/kegiatan'),
+        _i1.RouteConfig(KegiatanPesertaRoute.name, path: '/kegiatan_peserta'),
         _i1.RouteConfig(AnggotaRoute.name, path: '/anggota'),
         _i1.RouteConfig(IuranRoute.name, path: '/iuran'),
         _i1.RouteConfig(IuranWargaRoute.name, path: '/iuran_warga'),
@@ -154,7 +168,8 @@ class AppRouter extends _i1.RootStackRouter {
         _i1.RouteConfig(TambahKegiatanRoute.name, path: '/tambah_kegiatan'),
         _i1.RouteConfig(CustomOptionWithSearchRoute.name,
             path: '/custom-option'),
-        _i1.RouteConfig(SuratWargaRoute.name, path: '/surat_warga')
+        _i1.RouteConfig(SuratWargaRoute.name, path: '/surat_warga'),
+        _i1.RouteConfig(JenisSuratRoute.name, path: '/jenis_surat')
       ];
 }
 
@@ -200,7 +215,7 @@ class WargaRoute extends _i1.PageRouteInfo {
 
 class DetailWargaRoute extends _i1.PageRouteInfo<DetailWargaRouteArgs> {
   DetailWargaRoute(
-      {_i2.Key? key, required _i21.ListWargaModel? model, required int index})
+      {_i2.Key? key, required _i23.ListWargaModel? model, required int index})
       : super(name,
             path: '/detail_warga',
             args: DetailWargaRouteArgs(key: key, model: model, index: index));
@@ -214,7 +229,7 @@ class DetailWargaRouteArgs {
 
   final _i2.Key? key;
 
-  final _i21.ListWargaModel? model;
+  final _i23.ListWargaModel? model;
 
   final int index;
 }
@@ -223,6 +238,23 @@ class KegiatanRoute extends _i1.PageRouteInfo {
   const KegiatanRoute() : super(name, path: '/kegiatan');
 
   static const String name = 'KegiatanRoute';
+}
+
+class KegiatanPesertaRoute extends _i1.PageRouteInfo<KegiatanPesertaRouteArgs> {
+  KegiatanPesertaRoute({_i2.Key? key, required int id})
+      : super(name,
+            path: '/kegiatan_peserta',
+            args: KegiatanPesertaRouteArgs(key: key, id: id));
+
+  static const String name = 'KegiatanPesertaRoute';
+}
+
+class KegiatanPesertaRouteArgs {
+  const KegiatanPesertaRouteArgs({this.key, required this.id});
+
+  final _i2.Key? key;
+
+  final int id;
 }
 
 class AnggotaRoute extends _i1.PageRouteInfo<AnggotaRouteArgs> {
@@ -334,4 +366,10 @@ class SuratWargaRoute extends _i1.PageRouteInfo {
   const SuratWargaRoute() : super(name, path: '/surat_warga');
 
   static const String name = 'SuratWargaRoute';
+}
+
+class JenisSuratRoute extends _i1.PageRouteInfo {
+  const JenisSuratRoute() : super(name, path: '/jenis_surat');
+
+  static const String name = 'JenisSuratRoute';
 }

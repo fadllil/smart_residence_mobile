@@ -33,6 +33,7 @@ class Results {
     this.tglTerakhirPembayaran,
     this.createdAt,
     this.updatedAt,
+    this.berpartisipasi,
     this.getIuran,
     this.kegiatan,
   });
@@ -44,6 +45,7 @@ class Results {
   DateTime? tglTerakhirPembayaran;
   DateTime? createdAt;
   DateTime? updatedAt;
+  bool? berpartisipasi;
   GetIuran? getIuran;
   Kegiatan? kegiatan;
 
@@ -55,7 +57,8 @@ class Results {
     tglTerakhirPembayaran: json["tgl_terakhir_pembayaran"] == null ? null : DateTime.parse(json["tgl_terakhir_pembayaran"]),
     createdAt: json["created_at"] == null ? null : DateTime.parse(json["created_at"]),
     updatedAt: json["updated_at"] == null ? null : DateTime.parse(json["updated_at"]),
-    getIuran: json["get_iuran"] == null ? null : GetIuran.fromJson(json["get_iuran"]),
+    berpartisipasi: json["berpartisipasi"] == null ? null : json["berpartisipasi"],
+    getIuran: json["getIuran"] == null ? null : GetIuran.fromJson(json["getIuran"]),
     kegiatan: json["kegiatan"] == null ? null : Kegiatan.fromJson(json["kegiatan"]),
   );
 }
@@ -68,6 +71,7 @@ class GetIuran {
     this.uang,
     this.tglPembayaran,
     this.status,
+    this.gambar,
     this.keterangan,
     this.createdAt,
     this.updatedAt,
@@ -77,10 +81,11 @@ class GetIuran {
   int? id;
   int? idIuran;
   int? idUser;
-  dynamic uang;
-  dynamic tglPembayaran;
+  int? uang;
+  DateTime? tglPembayaran;
   String? status;
-  dynamic keterangan;
+  String? gambar;
+  String? keterangan;
   DateTime? createdAt;
   DateTime? updatedAt;
   User? user;
@@ -89,10 +94,11 @@ class GetIuran {
     id: json["id"] == null ? null : json["id"],
     idIuran: json["id_iuran"] == null ? null : json["id_iuran"],
     idUser: json["id_user"] == null ? null : json["id_user"],
-    uang: json["uang"],
-    tglPembayaran: json["tgl_pembayaran"],
+    uang: json["uang"] == null ? null : json["uang"],
+    tglPembayaran: json["tgl_pembayaran"] == null ? null : DateTime.parse(json["tgl_pembayaran"]),
     status: json["status"] == null ? null : json["status"],
-    keterangan: json["keterangan"],
+    gambar: json["gambar"] == null ? null : json["gambar"],
+    keterangan: json["keterangan"] == null ? null : json["keterangan"],
     createdAt: json["created_at"] == null ? null : DateTime.parse(json["created_at"]),
     updatedAt: json["updated_at"] == null ? null : DateTime.parse(json["updated_at"]),
     user: json["user"] == null ? null : User.fromJson(json["user"]),

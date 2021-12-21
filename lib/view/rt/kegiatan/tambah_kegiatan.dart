@@ -26,7 +26,7 @@ class TambahKegiatan extends StatelessWidget{
       create: (_)=>locator<TambahKegiatanCubit>()..init(),
       child: Scaffold(
         appBar: AppBar(
-          title: Text('Tambah Pengeluaran'),
+          title: Text('Tambah Kegiatan'),
         ),
         body: BlocConsumer<TambahKegiatanCubit,TambahKegiatanState>(
           listener: (context,state){
@@ -35,7 +35,7 @@ class TambahKegiatan extends StatelessWidget{
             }else if(state is TambahKegiatanCreated){
               EasyLoading.dismiss();
               EasyLoading.showSuccess('Berhasil menambah data Pengeluaran');
-              AutoRouter.of(context).pushAndPopUntil(KegiatanRoute(), predicate: (route)=>false);
+              AutoRouter.of(context).popUntil(ModalRoute.withName(KegiatanRoute.name));
             }else if(state is TambahKegiatanError){
               EasyLoading.dismiss();
               EasyLoading.showError(state.message);
